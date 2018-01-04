@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=0.5, maximum-scale=1, user-scalable=no">
+<title>登录成功</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/Ajax.js"></script>
+<script src="js/getAll.js"></script>
+<script src="js/getName.js"></script>
+<script src="js/quit.js"></script>
+<script src="js/myInfo.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/setmyfile.js"></script>
+<script src="js/getUserOneDayPosition.js"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=ix6bpclWXKS4PFlIX7k9PIi2raf83cY7"></script>
+<style>
+.form-control{
+width: 90%;
+}
+</style>
+</head>
+
+<body onload="bandnum();getName();getUserNum()">
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-8 column">
+				<div id="hello" class="text-muted"></div>
+				<div>
+					<h1 class="text-success">小猪手环</h1>
+					<img style="position: absolute; top: 8px; left: 168px;"
+						src="img/welcome.png">
+				</div>
+
+				<div class="btn-group" role="group" aria-label="web" style="width: 700px;">
+					<button type="button" class="btn  btn-lg btn-warning"
+						data-toggle="collapse" data-target="#setmyfile"
+						aria-expanded="false" aria-controls="collapseExample"
+						onclick="myInfo()">
+						<span class="glyphicon glyphicon-cog"></span>设置资料
+					</button>
+					<button class="btn btn-lg btn-info" type="button"
+						data-toggle="collapse" data-target="#myuserfile"
+						aria-expanded="false" aria-controls="collapseExample"
+						onclick="getAll()">
+						<span class="glyphicon glyphicon-user"></span>我的资料
+					</button>
+
+					<button type="button" class="btn btn-lg btn-primary"
+						data-toggle="collapse" data-target="#myTab" aria-expanded="false"
+						aria-controls="collapseExample">
+						已绑定手环<span id="bandnum" class="badge"></span>
+					</button>
+
+					<button class="btn btn-lg btn btn-success" type="button"
+						data-toggle="collapse" data-target="#myband" aria-expanded="false"
+						aria-controls="collapseExample">绑定手环</button>
+					<button class="btn btn-lg btn-warning" type="button"
+						data-toggle="collapse" data-target="#dismyband"
+						aria-expanded="false" aria-controls="collapseExample">解除绑定</button>
+					<button class="btn  btn-lg btn-danger" onclick="quit()">退出</button>
+				</div>
+
+
+
+				<div id="myuserfile" class="collapse">
+					<div class="page-header">
+						<h1>您的资料</h1>
+					</div>
+					<div class="span12" id="userfile"></div>
+				</div>
+
+
+				<div id="myTab" class="collapse">
+					<div class="btn-group" role="group" aria-label="web">
+						<div class="page-header">
+							<h1>您所绑定的手环</h1>
+						</div>
+					</div>
+					<div id="band" style="width: 1000px;"></div>
+					<div id="setband" class="collapse">
+						<div class="container">
+							<div class="row clearfix">
+								<div class="col-md-4 column">
+									<div class="page-header"></div>
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="bname" class="col-sm-2 control-label">姓名:</label>
+											<div class="col-sm-10">
+												<input name="bname" id="bname" type="text"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="sexy" class="col-sm-2 control-label">性别:</label>
+											<div class="col-sm-10">
+												<select class="form-control" id="sexy" name="sexy">
+													<option value="男性" class="form-control">男性</option>
+													<option value="女性" class="form-control">女性</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="bloodtype" class="col-sm-2 control-label">血型:</label>
+											<div class="col-sm-10">
+												<select class="form-control" id="bloodtype" name="bloodtype">
+													<option value="A型" class="form-control">A型</option>
+													<option value="B型" class="form-control">B型</option>
+													<option value="O型" class="form-control">O型</option>
+													<option value="AB型" class="form-control">AB型</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="age" class="col-sm-2 control-label">年龄:</label>
+											<div class="col-sm-10">
+												<input name="age" id="age" type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="tele" class="col-sm-2 control-label">电话:</label>
+											<div class="col-sm-10">
+												<input name="tele" id="tele" type="text"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="address" class="col-sm-2 control-label">地址:</label>
+											<div class="col-sm-10">
+												<input name="address" id="address" type="text"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="thanksgiving" class="col-sm-2 control-label">致谢:</label>
+											<div class="col-sm-10">
+												<input name="thanksgiving" id="thanksgiving" type="text"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="lng" class="col-sm-2 control-label">经度:</label>
+											<div class="col-sm-10">
+												<input name="lng" id="lng" type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="lat" class="col-sm-2 control-label">纬度:</label>
+											<div class="col-sm-10">
+												<input name="lat" id="lat" type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="rad" class="col-sm-2 control-label">半径:</label>
+											<div class="col-sm-10">
+												<input name="rad" id="rad" type="text" class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="pwd1" class="col-sm-2 control-label">密码:</label>
+											<div class="col-sm-10">
+												<input name="pwd1" id="pwd1" type="text"
+													class="form-control" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10" id="set"
+												style="color: red"></div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<p>
+													<button type="button" onclick="checknull()"
+														class="btn btn-default">确认设置</button>
+												</p>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col-md-8 column">
+									<div class="page-header"></div>
+									<form name="reg_testdate">
+										<select id="YYYY" name="YYYY" onchange="YYYYDD(this.value)">
+											<option value="">年</option>
+										</select> <select id="MM" name="MM" onchange="MMDD(this.value)">
+											<option value="">月</option>
+										</select> <select id="DD" name="DD">
+											<option value="">日</option>
+										</select>
+										<button type="button" class="btn btn-success btn-xs"
+											id="getday" onclick="getUserOneDayPosition()">查询当日路径</button>
+									</form>
+									<div id="allmap" style="height: 400px; width: 750px;"></div>
+									 <button type="button" class="btn btn-success btn-lg btn-block"
+										id="myposition" onclick="setposition()"></button> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+				<div id="setmyfile" class="collapse">
+					<div class="container">
+						<div class="row clearfix">
+							<div class="col-md-8 column">
+								<div class="page-header">
+									<h1>个人资料设置</h1>
+								</div>
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="uname" class="col-sm-2 control-label">姓名:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="uname"
+												id="uname" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="sexy" class="col-sm-2 control-label">性别:</label>
+										<div class="col-sm-10">
+											<select class="form-control" id="sexy" name="sexy">
+												<option value="男性" class="form-control">男性</option>
+												<option value="女性" class="form-control">女性</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="usertele" class="col-sm-2 control-label  ">联系电话:</label>
+										<div class="col-sm-10">
+											<input name="usertele" id="usertele" type="text"
+												class="form-control" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="useraddress" class="col-sm-2 control-label">家庭住址:</label>
+										<div class="col-sm-10">
+											<input name="useraddress" id="useraddress" type="text"
+												class="form-control" />
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10" id="set"
+											style="color: red"></div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<p>
+												<button type="button"
+													onclick="window.location.href='success.html'"
+													class="btn btn-default">返回</button>
+												<button type="button" onclick="setmyfile()"
+													class="btn btn-default">确认设置</button>
+											</p>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+				<div id="dismyband" class="collapse">
+					<div class="row clearfix">
+						<div class="col-md-10 column">
+							<div class="page-header">
+								<h1>欢迎再次使用</h1>
+							</div>
+							<form class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="bandID2" class="col-sm-2 control-label">唯一标识符:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="bandID2"
+											id="bandID2" onblur="band2()" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10" id="MyDuplicate1"
+										style="color: red"></div>
+								</div>
+								<div class="form-group">
+									<label for="pwd2" class="col-sm-2 control-label">密码:</label>
+									<div class="col-sm-10">
+										<input name="pwd2" id="pwd2" type="text" class="form-control"
+											onblur="#" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<p>
+											<button type="button" onclick="disband()"
+												class="btn btn-danger">确认解除绑定</button>
+										</p>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+				<div id="myband" class="collapse">
+					<div class="row clearfix">
+						<div class="col-md-10 column">
+							<div class="page-header">
+								<h1>欢迎使用手环</h1>
+							</div>
+							<form class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="bandID" class="col-sm-2 control-label">唯一标识符:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="bandID"
+											id="bandID" onblur="band()" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10" id="MyDuplicate"
+										style="color: red"></div>
+								</div>
+								<div class="form-group">
+									<label for="pwd" class="col-sm-2 control-label">密码:</label>
+									<div class="col-sm-10">
+										<input name="pwd" value="" id="pwd" type="text"
+											class="form-control" onblur="defaultpwd()" />
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10" id="defaultpwd"
+										style="color: red"></div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-2 col-sm-10">
+										<p>
+											<button type="button" onclick="setting()"
+												class="btn btn-success">确认绑定</button>
+										</p>
+									</div>
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom"
+		style="min-height: 20px; height: 20px">
+		<div style="text-align: center">
+			<div id="userNum"></div>
+		</div>
+	</nav>
+
+	<script type="text/javascript">
+    function getUserNum(){
+    	xmlhttp=ajax();
+   	    xmlhttp.open("get","user/getUserNum.do",false);
+   	    xmlhttp.onreadystatechange=function(){
+   	     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+   	    	res=xmlhttp.responseText;
+   	    	json=JSON.parse(res);
+   	    	document.getElementById("userNum").innerHTML="在线人数为"+json.amount;
+   	    }
+   	 } 
+   	    xmlhttp.send();
+    }
+</script>
+
+
+
+
+
+
+
+	<script>
+		var exist = true;
+
+		function band2() {
+			var bandID  = document.getElementById("bandID2").value;
+			var res;
+			var xmlhttp = ajax();
+			var uri = "band/exist.do?bandID=" + bandID;
+			xmlhttp.open("get", uri, false);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					res = xmlhttp.responseText;
+					if (res == "no") {
+						exist = false;
+						document.getElementById("MyDuplicate1").innerHTML = "不存在此手环";
+					} else {
+						exist = true;
+						document.getElementById("MyDuplicate1").innerHTML = "";
+					}
+				} else {
+					document.getElementById("MyDuplicate1").innerHTML = "正在处理......";
+				}
+			}
+			xmlhttp.send();
+		}
+
+		function disband() {
+			band2();
+			if (!exist) {
+				alert("不存在此手环");
+				document.getElementById("MyDuplicate1").innerHTML = "不存在此手环";
+			} else {
+				disband2();
+			}
+		}
+
+		function disband2() {
+			var xmlhttp = ajax();
+			var res;
+			var bandID = document.getElementById("bandID2").value;
+			var pwd = document.getElementById("pwd2").value;
+			var uri = "band/disuser_band.do?bandID=" + bandID + "&pwd=" + pwd;
+			xmlhttp.open("get", uri, false);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					res = xmlhttp.responseText;
+					if(res=="no"){
+						alert("手环密码错误");
+					}else if(res=="haveno")
+						alert("您无此手环，谢谢您的支持");
+					else{
+						alert("解绑成功");
+					    window.location.href="success.html";
+					    }
+				} else {
+					document.getElementById("MyDuplicate1").innerHTML = "正在处理......";
+				}
+			}
+			xmlhttp.send();
+		}
+</script>
+
+	<script>
+		var dfpwd = true;
+		var exist = true;
+
+		function ajax() {
+			var xmlhttp; //定义一个AJAX对象
+			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else {// code for IE6, IE5 
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			return xmlhttp;
+		}
+
+		function defaultpwd() {
+			var pwd = document.getElementById("pwd").value
+			if (pwd == "000000")
+				document.getElementById("defaultpwd").innerHTML = "手环密码为默认值，为保证安全请及时更改密码"
+			else {
+				dfpwd = false;
+				document.getElementById("defaultpwd").innerHTML = ""
+			}
+		}
+
+		function band() {
+			var bandID = document.getElementById("bandID").value;
+			var res;
+			var xmlhttp = ajax();
+			var uri = "band/exist.do?bandID=" + bandID;
+			xmlhttp.open("get", uri, false);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					res = xmlhttp.responseText;
+					if (res == "no") {
+						exist = false;
+						document.getElementById("MyDuplicate").innerHTML = "不存在此手环";
+					} else {
+						exist = true;
+						document.getElementById("MyDuplicate").innerHTML = "";
+					}
+				} else {
+					document.getElementById("MyDuplicate").innerHTML = "正在处理......";
+				}
+			}
+			xmlhttp.send();
+		}
+
+		function setting() {
+			band();
+			defaultpwd();
+			if (!exist) {
+				alert("不存在此手环");
+				document.getElementById("MyDuplicate").innerHTML = "不存在此手环";
+			} else {
+				set(dfpwd);
+			}
+		}
+
+		function set(dfpwd) {
+			var xmlhttp = ajax();
+			var res;
+			var bandID = document.getElementById("bandID").value;
+			var pwd = document.getElementById("pwd").value;
+			var uri = "band/setuser_band.do?bandID=" + bandID + "&pwd=" + pwd;
+			xmlhttp.open("get", uri, false);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					res = xmlhttp.responseText;
+					if(res=="duplicate")
+						document.getElementById("defaultpwd").innerHTML = "您已绑定此手环，谢谢您的支持";
+					else if(res=="no"){
+						document.getElementById("defaultpwd").innerHTML = "手环密码错误";}
+					else{
+						alert("恭喜你绑定成功，快去使用吧！");
+						if(dfpwd)
+						alert("手环密码为默认值，为保证安全请及时更改密码");
+					    window.location.href="success.html";
+					}
+				} else {
+					document.getElementById("MyDuplicate").innerHTML = "正在处理......";
+				}
+			}
+			xmlhttp.send();
+		}
+
+
+		 function bandnum(){
+        	var xmlhttp = ajax();
+ 			var res;
+ 			var uri = "user/bandnum.do"
+ 			xmlhttp.open("get", uri, false);
+ 			xmlhttp.onreadystatechange = function() {
+ 				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+ 					res = xmlhttp.responseText;
+ 					json = JSON.parse(res);
+ 					document.getElementById("bandnum").innerHTML = json.length;
+					document.getElementById("band").innerHTML = display(json);
+					//  document.getElementById("myBandfile").innerHTML = display1(json);
+ 				} else {
+ 					document.getElementById("bandnum").innerHTML = "正在处理......";
+ 				}
+ 			} 
+ 			xmlhttp.send(); 
+         }
+
+    function display(json) {			 
+	var content="";
+	for (var i = 0; i < json.length; i++)
+		content += "<button value='"+ json[i].bandID+  "' id='myBandfile" + (i+1) 
+		        + "' type='button' class='btn btn-default btn-lg'  onclick='mybandhtml("+  (i+1)
+				+  ");map()' data-toggle='collapse' data-target='#setband' aria-expanded='false' aria-controls='collapseExample' >"
+				+ json[i].bname + "的手环</button>";
+	return content;
+    }
+    
+    function mybandhtml(i) {			 
+    	    var xmlhttp = ajax();
+			var m = "myBandfile" + i;
+			var res;
+			var value = document.getElementById(m).attributes["value"].value;
+			var uri = "band/savebandsession.do?bandID=" + value;
+			xmlhttp.open("get", uri, false);
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					res = xmlhttp.responseText;
+					bandInfo();
+					// window.location.href="myband.html";
+				} else {
+					document.getElementById("bandnum").innerHTML = "正在处理......";
+				}
+			} 
+			xmlhttp.send();
+    }		
+</script>
+
+
+	<script>
+	        function checknull() {
+	    		var valueArray=new Array(11);
+	    		valueArray[0] = document.getElementById("bname").value;
+	    		valueArray[1] = document.getElementById("sexy").value;
+	    		valueArray[2] = document.getElementById("tele").value;
+	    		valueArray[3] = document.getElementById("address").value;
+	    		valueArray[4] = document.getElementById("age").value;
+	    		valueArray[5] = document.getElementById("bloodtype").value;
+	    		valueArray[6] = document.getElementById("thanksgiving").value;
+	    		valueArray[7] = document.getElementById("lng").value;
+	    		valueArray[8] = document.getElementById("lat").value;
+	    		valueArray[9] = document.getElementById("pwd1").value;
+	    		valueArray[10] = document.getElementById("rad").value;
+	    		var resnull = false;
+	    		for (x in valueArray)
+	    		{
+	    			if(valueArray[x] == "")
+	    			resnull = true;
+	    		}
+	    		if(resnull == true)
+	    		document.getElementById("set").innerHTML = "不能有空值，请继续填写";
+	    		else
+	    			setband();
+	        }
+	
+	</script>
+
+
+	<script>
+	function bandInfo() {
+		xmlhttp = ajax();
+		var uri = "user/checkband.do"
+		xmlhttp.open("get", uri, false);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				res = xmlhttp.responseText;
+				if(res = "no") document.getElementById("set").innerHTML = "获取手环信息失败";
+				else{
+				json = JSON.parse(res);
+				document.getElementById("bname").value = json.bname;
+				document.getElementById("sexy").value = json.sexy;
+				document.getElementById("tele").value = json.tele;
+				document.getElementById("address").value = json.address;
+				document.getElementById("bloodtype").value = json.bloodtype;
+				document.getElementById("age").value = json.age;
+				document.getElementById("thanksgiving").value = json.thanksgiving;
+				document.getElementById("lng").value = json.lng;
+				document.getElementById("lat").value = json.lat;
+				document.getElementById("pwd1").value = json.pwd;
+				document.getElementById("rad").value = json.rad;
+				}
+			} else {
+				document.getElementById("set").innerHTML = "正在处理......";
+			}
+		}
+		xmlhttp.send();
+	}
+
+	function setband() {
+		xmlhttp = ajax();
+		var bname = document.getElementById("bname").value;
+		var sexy = document.getElementById("sexy").value;
+		var tele = document.getElementById("tele").value;
+		var address = document.getElementById("address").value;
+		var age = document.getElementById("age").value;
+		var bloodtype = document.getElementById("bloodtype").value;
+		var thanksgiving = document.getElementById("thanksgiving").value;
+		var lng = document.getElementById("lng").value;
+		var lat = document.getElementById("lat").value;
+		var pwd = document.getElementById("pwd1").value;
+		var rad = document.getElementById("rad").value;
+		var uri = "band/setband.do?bname=" + bname
+				+ "&sexy=" + sexy + "&tele=" + tele + "&address=" + address
+				+ "&age=" + age + "&bloodtype=" + bloodtype + "&thanksgiving="
+				+ thanksgiving + "&lng=" + lng + "&lat=" + lat + "&pwd=" + pwd
+				+ "&rad=" + rad
+		xmlhttp.open("get", uri, false);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				res = xmlhttp.responseText;
+				if(res == "no") document.getElementById("set").innerHTML = "修改手环信息失败";
+				else {alert("设置成功")
+					window.location.href="success.html";
+				}
+			} 
+			else {
+				document.getElementById("set").innerHTML = "正在处理......";
+			}
+		}
+		xmlhttp.send();
+	}
+
+
+	function bandInfo() {
+		xmlhttp = ajax();
+		var uri = "user/checkband.do";
+		xmlhttp.open("get", uri, false);
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				res = xmlhttp.responseText;
+				json = JSON.parse(res);
+				document.getElementById("bname").value = json.bname;
+				document.getElementById("sexy").value = json.sexy;
+				document.getElementById("tele").value = json.tele;
+				document.getElementById("address").value = json.address;
+				document.getElementById("bloodtype").value = json.bloodtype;
+				document.getElementById("age").value = json.age;
+				document.getElementById("thanksgiving").value = json.thanksgiving;
+				document.getElementById("lng").value = json.lng;
+				document.getElementById("lat").value = json.lat;
+				document.getElementById("pwd1").value = json.pwd;
+				document.getElementById("rad").value = json.rad;
+			} else {
+				document.getElementById("set").innerHTML = "正在处理......";
+			}
+		}
+		xmlhttp.send();
+	}
+</script>
+
+	<script>
+	var positionX;
+	var positionY;
+    function map(){
+	// // 百度地图API功能
+	var map = new BMap.Map("allmap"); // 创建Map实例
+	// // map.centerAndZoom("南京", 11);  // 初始化地图,设置中心点坐标和地图级别
+	map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+	// // map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+	
+	var rad = document.getElementById("rad").value;
+	var lng = document.getElementById("lng").value;
+	var lat = document.getElementById("lat").value;
+	var mPoint = new BMap.Point(lng,lat); 
+	var circle  = new BMap.Circle(mPoint,rad,
+			{strokeColor:"blue", fillOpacity:0.4,strokeWeight:2, strokeOpacity:0.5});
+	map.addOverlay(circle);
+    
+	//浏览器定位
+	// var map = new BMap.Map("allmap");
+ //   var point = new BMap.Point(116.417854,39.921988);
+  //  var marker = new BMap.Marker(point);  // 创建标注
+  //  map.addOverlay(marker);              // 将标注添加到地图中
+   // map.centerAndZoom(point, 15);
+    var nposition = getUserOneDayPosition();
+    positionX=nposition[nposition.length-1].lng;
+	positionY= nposition[nposition.length-1].lat;
+			
+	//var geolocation = new BMap.Geolocation();
+	
+	//geolocation.getCurrentPosition(function() {
+	//	if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+			var nowPoint = new BMap.Point(positionX,positionY); 
+			var mk = new BMap.Marker(nowPoint);
+			//var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			//map.centerAndZoom(r.point,11);
+			map.centerAndZoom(nowPoint,11);
+			// map.panTo(r.point);
+			
+			position = "     您的位置：" + positionX+ "," + positionY + "（点击设置为中心位置）";
+			document.getElementById("myposition").innerHTML = position;
+		//	var distance = map.getDistance(nowPoint,mPoint);
+		//	if(distance>rad){document.getElementById("set").innerHTML = "您已超出范围";}
+		//} else {
+		//	alert('failed' + this.getStatus());
+		//}
+	//}, {
+	//	enableHighAccuracy : true
+	//})
+	
+	var setrad = document.getElementById("rad");
+	setrad.onblur = function(e){
+		var rad = document.getElementById("rad").value;
+		var lng = document.getElementById("lng").value;
+		var lat = document.getElementById("lat").value;
+		var mPoint = new BMap.Point(lng,lat); 
+		var circle  = new BMap.Circle(mPoint,rad,
+				{strokeColor:"blue",fillOpacity:0.4,strokeWeight:2, strokeOpacity:0.5});
+		map.clearOverlays();
+		map.addOverlay(mk);
+	    map.addOverlay(circle);
+	}
+	
+	var getday = document.getElementById("getday");
+	getday.onclick = function(e) {
+		map.clearOverlays();
+		json = getUserOneDayPosition();
+		var points = new Array()
+		var myIcon = new BMap.Icon(
+				" http://api.map.baidu.com/images/marker_red_sprite.png ",
+				new BMap.Size(23, 25), {
+					offset : new BMap.Size(10, 25),
+					imageOffset : new BMap.Size(0, 0 - index * 25)
+				});
+		for (var index = 0; index < json.length; index++) {
+			points[index] = new BMap.Point(json[index].lng,
+					json[index].lat);
+ 			/* var marker = new BMap.Marker(points[index], myIcon); // 创建标注
+			map.addOverlay(marker); */
+		}
+		var polyline = new BMap.Polyline(points, {
+			strokeColor : "blue",
+			strokeWeight : 6,
+			strokeOpacity : 0.5
+		}); //定义折线
+		map.panTo(points[0]);
+		map.centerAndZoom(points[0],11);
+		map.addOverlay(polyline);
+	}
+    
+    }
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+	
+	
+	/* var polygon = new BMap.Polygon([
+        new BMap.Point(115.8444,28.737246),
+        new BMap.Point(116.062868,28.727617),
+        new BMap.Point(116.032972,28.603378),
+        new BMap.Point(115.684573,28.617077)
+    ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形
+    map.addOverlay(polygon); */
+    
+   
+	
+	
+
+	// function setposition(){
+        //    document.getElementById("lng").value = positionX;
+		//	document.getElementById("lat").value = positionY;
+	//} 
+</script>
+</body>
+</html>

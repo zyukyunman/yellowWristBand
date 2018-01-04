@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Insert title here</title>
+<script src="js/VerifyLogin.js"></script>
+<script src="js/Ajax.js"></script>
+<!-- 引入 Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<style>
+.form-control{
+width: 90%;
+}
+</style>
+</head>
+<body onload="getUserNum()">
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-26 column">
+				<div class="jumbotron">
+					<h1>北京免费给失智老人配发智能手环 一个月仅被领走千余个</h1>
+					<p>北京市六月初正式启动的“失智老人防走失手环”项目，宣布第一阶段免费向10000名失智老人发放360老人手环。60周岁及以上，患有记忆障碍、认知障碍或老年痴呆症的本市户籍或常住外埠老年人，都可以免费申领。据了解，地方政府为失智老人免费配发看护型智能硬件产品在国内尚属首次。但昨日记者获悉，手环开启免费申领约一个月以来，手环仅被领走千余个。</p>
+					<p>
+						<button type="button" onclick="{location.href='help.html'}"
+							class="btn btn-primary btn-large">帮助老人请点击此处</button>
+					</p>
+				</div>
+				</div>
+				</div>
+				</div>
+				
+
+		<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-26 column">
+			
+				<div class="page-header">
+					<h1>欢迎使用</h1>
+				</div>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">账号:</label>
+						<div class="col-sm-10">
+							<input name="userID" id="userID" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">密码:</label>
+						<div class="col-sm-10">
+							<input name="pwd" id="pwd" type="password" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10" id="login"
+							style="color: red">测试账号：ddd，密码：123</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label><input type="checkbox" />记住账号</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<p>
+								<button type="button" onclick="Verify()" class="btn btn-default">登录</button>
+								<button type="button" onclick="window.location.href='reg.html'"
+									class="btn btn-default">注册</button>
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:20px;height:20px">
+<div style="text-align:center" >
+<div id="userNum" ></div>
+</div>
+</nav>
+
+<script type="text/javascript">
+    function getUserNum(){
+    	xmlhttp=ajax();
+   	    xmlhttp.open("get","user/getUserNum.do",false);
+   	    xmlhttp.onreadystatechange=function(){
+   	     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+   	    	res=xmlhttp.responseText;
+   	    	json=JSON.parse(res);
+   	    	document.getElementById("userNum").innerHTML="在线人数为"+json.amount;
+   	    }
+   	 } 
+   	    xmlhttp.send();
+    }
+</script>
+</body>
+</html>

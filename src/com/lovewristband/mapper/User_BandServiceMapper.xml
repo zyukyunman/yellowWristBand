@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lovewristband.mapper.User_BandServiceMapper">
+        <!-- 用户角色关联表 -->   
+        <resultMap id="user_bandMap" type="User_Band">
+        <id column="userID" property = "userID"/>   
+		<id column="bandID" property = "bandID"/>
+		</resultMap>
+		
+		<resultMap id="userMap" type="UserInfo">
+		<id column="userID" property="userID" />
+		<result column="uname" property="uname" />
+		<result column="pwd" property="pwd" />
+		<result column="sexy" property="sexy" />
+		<result column="address" property="address" />
+		<result column="tele" property="tele" />
+	    </resultMap>
+		
+        <resultMap id="bandMap" type="BandInfo">
+		<id column="bandID" property="bandID" />
+		<result column="bname" property="bname" />
+		<result column="pwd" property="pwd" />
+		<result column="age" property="age" />
+		<result column="sexy" property="sexy" />
+		<result column="address" property="address" />
+		<result column="bloodtype" property="bloodtype" />
+		<result column="medicalID" property="medicalID" />
+		<result column="tele" property="tele" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+		<result column="rad" property="rad" />
+		<result column="thanksgiving" property="tele" />
+		<result column="type" property="type" />
+	</resultMap>
+	    
+	    <insert id="setuser_band" parameterType="User_Band">
+		insert into user_band (userID,bandID)
+		values(#{userID},#{bandID})
+	    </insert>
+	    
+	    <select id="duplicateBand" parameterType="User_Band" resultMap="user_bandMap">
+		select *
+		from user_band where userID=#{userID} and bandID=#{bandID}
+	    </select>
+	    
+	    
+	    <select id = "getBandList" parameterType = "String" resultMap = "user_bandMap">
+		select * from user_band where userID = #{userID}
+		</select>
+		 <select id = "getUserList" parameterType = "String" resultMap = "user_bandMap">
+		select * from user_band where bandID = #{bandID}
+		</select>
+		
+		<delete id="disuser_band" parameterType="User_Band">
+        delete from user_band where userID=#{userID} and bandID=#{bandID}
+    </delete>
+
+</mapper>

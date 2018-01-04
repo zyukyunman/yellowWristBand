@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lovewristband.mapper.UserServiceMapper">
+
+	<resultMap id="userMap" type="UserInfo">
+		<id column="userID" property="userID" />
+		<result column="uname" property="uname" />
+		<result column="pwd" property="pwd" />
+		<result column="sexy" property="sexy" />
+		<result column="address" property="address" />
+		<result column="tele" property="tele" />
+	</resultMap>
+	
+	<resultMap id="userCountMap" type="UserCount">
+		<id column="amount" property="amount" />
+		<result column="recid" property="recid" />
+		<result column="time" property="time" />
+	</resultMap>
+
+	<!-- 表的字段名即为 类的属性名 -->
+	<select id="submit" parameterType="UserInfo" resultMap="userMap">
+		select *
+		from userinfo where userID=#{userID} and pwd=#{pwd}
+	</select>
+
+	<select id="check" parameterType="UserInfo" resultMap="userMap">
+		select *
+		from userinfo where userID=#{userID}
+	</select>
+	<select id="getInfo" parameterType="String" resultType="UserInfo">
+		select *
+		from userinfo where userID=#{userID}
+	</select>
+
+	<insert id="reg" parameterType="UserInfo">
+		insert into userinfo (userID,pwd,uname,sexy,address,tele)
+		values(#{userID},#{pwd},#{uname},#{sexy},#{address},#{tele})
+	</insert>
+
+	<update id="setAll" parameterType="UserInfo">
+		update userinfo
+		<if test="uname"> set uname=#{uname}</if>
+		,
+		<if test="sexy"> sexy=#{sexy}</if>
+		,
+		<if test="address"> address=#{address}</if>
+		,
+		<if test="tele"> tele=#{tele}</if>
+		where userID=#{userID}
+	</update>
+	
+	<insert id="saveUserCount" parameterType="UserCount">
+	  insert into userCount (recid,amount,time)
+		values(#{recid},#{amount},#{time})
+	</insert>
+	
+	<select id="getUserNum"  resultType="UserCount">
+		select * from usercount order  by  usercount.time desc limit 0 , 1;
+	</select>
+
+</mapper>

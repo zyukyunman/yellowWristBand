@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lovewristband.mapper.BandServiceMapper">
+<cache readOnly="true" size="512" eviction="FIFO" flushInterval="60000" />
+	<resultMap id="bandMap" type="BandInfo">
+		<id column="bandID" property="bandID" />
+		<result column="bname" property="bname" />
+		<result column="pwd" property="pwd" />
+		<result column="age" property="age" />
+		<result column="sexy" property="sexy" />
+		<result column="address" property="address" />
+		<result column="bloodtype" property="bloodtype" />
+		<result column="medicalID" property="medicalID" />
+		<result column="tele" property="tele" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+		<result column="rad" property="rad" />
+		<result column="thanksgiving" property="thanksgiving" />
+		<result column="type" property="type" />
+	</resultMap>
+	
+	<!-- <resultMap id="positionMap" type="PositionInfo">
+		<id column="bandID" property="bandID" />
+		<result column="ptime" property="ptime" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+	</resultMap> -->
+
+	<select id="checkband" parameterType="BandInfo" resultMap="bandMap">
+		select *
+		from bandinfo where bandID=#{bandID}
+	</select>
+
+	<select id="existBand" parameterType="BandInfo" resultMap="bandMap">
+		select *
+		from bandinfo where bandID=#{bandID}
+	</select>
+
+	<select id="loginBand" parameterType="BandInfo" resultMap="bandMap">
+		select *
+		from bandinfo where bandID=#{bandID} and pwd=#{pwd}
+	</select>
+
+	<update id="setBand" parameterType="BandInfo">
+		update bandinfo
+		<if test="bname"> set bname=#{bname},</if>
+
+		<if test="pwd"> pwd=#{pwd},</if>
+
+		<if test="age>-1"> age=#{age},</if>
+
+		<if test="sexy"> sexy=#{sexy},</if>
+
+		<if test="address"> address=#{address},</if>
+
+		<if test="bloodtype"> bloodtype=#{bloodtype},</if>
+
+		<if test="tele"> tele=#{tele},</if>
+
+		<if test="lat"> lat=#{lat},</if>
+
+		<if test="lng"> lng=#{lng},</if>
+
+	    <if test="rad>-1" >  rad=#{rad},</if>  
+		<if test="thanksgiving"> thanksgiving=#{thanksgiving}</if>
+		where bandID=#{bandID}
+	</update>
+	
+	<insert id="create" parameterType="BandInfo">
+	    insert into bandinfo (bandID,pwd)values(#{bandID},#{pwd})
+	</insert>
+	
+	<insert id="savePoint" parameterType="PositionInfo">
+	    insert into positioninfo (bandID,ptime,lat,lng)values(#{bandID},#{ptime},#{lat},#{lng})
+	</insert>
+	
+	<select id="getBandOneDayPosition"  resultMap="com.lovewristband.mapper.PositionServiceMapper.positionMap">
+		SELECT * from
+		positioninfo where bandID = #{bandID} and ptime like "%"#{ptime}"%";
+	</select>
+
+</mapper>

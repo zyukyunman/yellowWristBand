@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport"
+	content="width=device-width, initial-scale=0.5, maximum-scale=1, user-scalable=no">
+<title>记录位置</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/Ajax.js"></script>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=ix6bpclWXKS4PFlIX7k9PIi2raf83cY7"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<h3>记录手环位置</h3>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="bandID" class="col-sm-2 control-label">唯一识别码:</label>
+						<div class="col-sm-10">
+							<input name="bandID" id="bandID" type="text" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<p>
+								<button type="button" onclick="bandposition()"
+									class="btn btn-default">记录位置</button>
+								<button type="button" onclick="{location.href='login.html'}"
+									class="btn btn-default">返回官网</button>
+									<button type="button" onclick="{location.href='help.html'}"
+									class="btn btn-default">通过扫码帮助老人</button>
+							</p>
+						</div>
+						<div id="ok" style="color: red;position:absolute; left:17px; top:170px"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="allmap" style="height:0px; left:300px; width:720px;"></div>
+
+
+	<script type="text/javascript">
+		function bandposition() {
+
+			// // 百度地图API功能
+			var map = new BMap.Map("allmap"); // 创建Map实例
+			// // map.centerAndZoom("南京", 11);  // 初始化地图,设置中心点坐标和地图级别
+			map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+			// // map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+			map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+			//浏览器定位
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition
+			geolocation.getCurrentPosition(function(r) {
+				if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+					var mk = new BMap.Marker(r.point);
+					map.addOverlay(mk);
+					map.panTo(r.point);
+					map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat),
+							11);
+					positionX=r.point.lng;
+					positionY=r.point.lat;
+					position = "记录完成     您的位置：" + r.point.lng + "," + r.point.lat;
+					document.getElementById("ok").innerHTML = position;
+
+					xmlhttp = ajax();
+					/* var dateTime = (new Date()).toLocaleString(); */
+					var bandID = document.getElementById("bandID").value;
+					var uri = "band/savePoint.do?lng=" + r.point.lng
+							+ "&lat=" + r.point.lat + "&bandID="
+							+ bandID;
+					xmlhttp.open("get", uri, false);
+					xmlhttp.onreadystatechange = function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+							res = xmlhttp.responseText;
+						}
+					}
+					xmlhttp.send();
+
+				} else {
+					alert('failed' + this.getStatus());
+				}
+			}, {
+				enableHighAccuracy : true
+			})
+			//关于状态码
+			//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+			//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+			//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+			//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+			//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+			//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+			//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+			//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+			//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="js/Ajax.js"></script>
+<body>
+<button onclick="gogo()">生产手环</button>
+<button onclick="gogo()">生产手环</button>
+</body>
+<script>
+       function gogo(){
+    	   xmlhttp = ajax();
+   		var uri = "band/create.do";
+   		xmlhttp.open("get", uri, false);
+   		xmlhttp.onreadystatechange = function() {
+   			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+   				res = xmlhttp.responseText;
+   			} else {
+   				document.getElementById("set").innerHTML = "正在处理......";
+   			}
+   		}
+   		xmlhttp.send();
+       }
+</script>
+</html>
